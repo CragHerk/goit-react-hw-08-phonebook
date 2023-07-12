@@ -10,6 +10,7 @@ import LoginFormLink from './LoginFormLink/LoginFormLink';
 
 import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
+import ForgotPassword from './ForgotPassword/ForgotPassword';
 
 export const App = () => {
   return (
@@ -20,6 +21,7 @@ export const App = () => {
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
+            <Route path="/password" element={<ForgotPassword />} />
           </Routes>
         </div>
       </Router>
