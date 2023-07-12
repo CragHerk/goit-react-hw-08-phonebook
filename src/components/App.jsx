@@ -18,10 +18,19 @@ export const App = () => {
       <Router>
         <div>
           <Routes>
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/password" element={<ForgotPassword />} />
+            <Route
+              path="goit-react-hw-08-phonebook/contacts"
+              element={<Contacts />}
+            />
+            <Route path="goit-react-hw-08-phonebook/" element={<LoginForm />} />
+            <Route
+              path="goit-react-hw-08-phonebook/register"
+              element={<RegisterForm />}
+            />
+            <Route
+              path="goit-react-hw-08-phonebook/password"
+              element={<ForgotPassword />}
+            />
           </Routes>
         </div>
       </Router>
