@@ -12,18 +12,18 @@ import LoginForm from './LoginForm/LoginForm';
 import RegisterForm from './RegisterForm/RegisterForm';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 
-export const App = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div>
+        <React.Fragment>
           <Routes>
             <Route path="/contacts" element={<Contacts />} />
-            <Route path="/" element={<LoginForm />} />
+            <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/password" element={<ForgotPassword />} />
           </Routes>
-        </div>
+        </React.Fragment>
       </Router>
     </Provider>
   );
@@ -39,3 +39,4 @@ const Contacts = () => {
     </>
   );
 };
+export default App;
