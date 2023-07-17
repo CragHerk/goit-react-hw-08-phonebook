@@ -1,8 +1,7 @@
+// app.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
-import store from 'state/store';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -14,18 +13,14 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Router>
-        <React.Fragment>
-          <Routes>
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/password" element={<ForgotPassword />} />
-          </Routes>
-        </React.Fragment>
-      </Router>
-    </Provider>
+    <Router basename="goit-react-hw-08-phonebook">
+      <Routes>
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/password" element={<ForgotPassword />} />
+      </Routes>
+    </Router>
   );
 };
 
@@ -39,4 +34,5 @@ const Contacts = () => {
     </>
   );
 };
+
 export default App;
