@@ -6,6 +6,7 @@ const initialState = {
   email: '',
   status: 'idle',
   error: null,
+  name: '',
 };
 
 export const registerUser = createAsyncThunk(
@@ -69,8 +70,9 @@ const authSlice = createSlice({
 
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user; // Zaktualizuj informacje o zalogowanym użytkowniku
-        state.name = action.payload.user.name; // Zaktualizuj pole name
+        state.user = action.payload.user;
+        state.email = action.payload.user.email; // Aktualizujemy email
+        state.name = action.payload.user.name; // Aktualizujemy name
       });
   },
 });

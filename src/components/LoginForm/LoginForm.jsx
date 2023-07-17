@@ -23,19 +23,17 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    dispatch(loginUser({ email, password }))
-      .unwrap()
-      .then(response => {
-        if (response.user && response.token) {
-          dispatch(response.user.email);
-          navigate('/contacts');
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      const response = await dispatch(loginUser({ email, password })).unwrap();
+      if (response.user && response.token) {
+        setEmail(response.user.email); // Aktualizujemy adres email w komponencie SignIn
+        navigate('/contacts');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -100,18 +98,12 @@ function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link
-                  href="goit-react-hw-08-phonebook/password"
-                  variant="body2"
-                >
+                <Link href="/password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link
-                  href="goit-react-hw-08-phonebook/register"
-                  variant="body2"
-                >
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
