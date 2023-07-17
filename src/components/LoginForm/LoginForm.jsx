@@ -28,8 +28,6 @@ function SignIn() {
     dispatch(loginUser({ email, password }))
       .unwrap()
       .then(response => {
-        console.log(response.user); // Wyświetlanie danych użytkownika w konsoli
-        console.log(response.token); // Wyświetlanie tokenu w konsoli
         if (response.user && response.token) {
           dispatch(response.user.email);
           navigate('/contacts');

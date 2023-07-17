@@ -1,24 +1,22 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 
-import { logoutUser } from 'state/reducerAuth';
-
 const LoginFormLink = () => {
-  const dispatch = useDispatch();
-  const email = useSelector(state => state.auth.email);
-
-  const handleLogout = () => {
-    // Wywołaj akcję wylogowania
-    dispatch(logoutUser());
-  };
+  const user = useSelector(state => state.auth.user);
 
   return (
     <div>
-      <p>Email: {email}</p>
-      <Button onClick={handleLogout} variant="contained" color="primary">
-        Log out
-      </Button>
+      {user ? (
+        <p>
+          Logged in as: {user.name} ({user.email})
+        </p>
+      ) : (
+        <Button component={Link} to="/" variant="contained" color="primary">
+          Log out
+        </Button>
+      )}
     </div>
   );
 };

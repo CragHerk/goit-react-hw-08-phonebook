@@ -41,20 +41,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
-  try {
-    // Wywołaj żądanie wylogowania użytkownika
-    // np. wysyłając zapytanie do serwera lub czyszcząc dane sesji
-    // ...
-
-    // Zwróć null lub inną wartość, jeśli potrzebne
-    return null;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-});
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -75,26 +61,16 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, state => {
         state.status = 'loading';
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.user = action.payload.user; // Zaktualizuj informacje o zalogowanym użytkowniku
-      })
+
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
 
-      .addCase(logoutUser.pending, state => {
-        state.status = 'loading';
-      })
-      .addCase(logoutUser.fulfilled, state => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = null; // Wyzeruj dane użytkownika
-        state.email = ''; // Wyzeruj adres email
-      })
-      .addCase(logoutUser.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        state.user = action.payload.user; // Zaktualizuj informacje o zalogowanym użytkowniku
+        state.name = action.payload.user.name; // Zaktualizuj pole name
       });
   },
 });
