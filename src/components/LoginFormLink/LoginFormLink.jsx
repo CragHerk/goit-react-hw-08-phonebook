@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { getCurrentUser } from 'state/reducerAuth';
 
 const LoginFormLink = () => {
-  const user = useSelector(state => state.user);
+  const token = useSelector(state => state.auth.token);
+  const user = useSelector(state => state.auth.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (token && !user) {
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, token, user]);
 
   return (
     <div>
@@ -14,7 +23,7 @@ const LoginFormLink = () => {
         component="p"
         sx={{ marginBottom: '16px', fontWeight: 'bold' }}
       >
-        Logged in as: {user.name} ({user.email})
+        {user ? `Logged in as: ${user.name} (${user.email})` : ''}
       </Typography>
 
       <Button component={Link} to="/" variant="contained" color="primary">

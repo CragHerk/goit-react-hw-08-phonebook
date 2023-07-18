@@ -1,19 +1,7 @@
-export const addContact = contact => ({
-  type: 'ADD_CONTACT',
-  payload: contact,
-});
+import { createAction } from '@reduxjs/toolkit';
 
-export const deleteContact = contactId => ({
-  type: 'DELETE_CONTACT',
-  payload: contactId,
-});
-
-export const registerUser = userData => ({
-  type: 'REGISTER_USER',
-  payload: userData,
-});
-
-export const loginUser = userData => ({
-  type: 'LOGIN_USER',
-  payload: userData,
-});
+export const addContact = createAction('contacts/addContact');
+export const deleteContact = createAction('contacts/deleteContact');
+export const registerUser = createAction('auth/registerUser');
+export const loginUser = createAction('auth/loginUser');
+export const getCurrentUser = createAction('auth/getCurrentUser');

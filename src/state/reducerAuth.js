@@ -1,14 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = {
-  user: null,
-  email: '',
-  status: 'idle',
-  error: null,
-  name: '',
-};
-
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async ({ firstName, lastName, email, password }) => {
@@ -41,11 +33,41 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const getCurrentUser = createAsyncThunk(
+  'auth/getCurrentUser',
+  async (_, thunkAPI) => {
+    try {
+      const { token } = thunkAPI.getState().auth;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(
+        'https://connections-api.herokuapp.com/users/current',
+        { headers }
+      );
+      return response.data.user; // Zwracamy tylko dane użytkownika
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
-  reducers: {},
+  initialState: {
+    user: null,
+    email: '',
+    status: 'idle',
+    error: null,
+    name: '',
+    token: null,
+  },
+  reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload; // Zaktualizuj wartość tokena w stanie
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(registerUser.pending, state => {
@@ -71,8 +93,13 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.user = action.payload.user;
-        state.email = action.payload.user.email; // Aktualizujemy email
-        state.name = action.payload.user.name; // Aktualizujemy name
+        state.email = action.payload.user.email;
+        state.name = action.payload.user.name;
+        state.token = action.payload.token;
+      })
+
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   },
 });

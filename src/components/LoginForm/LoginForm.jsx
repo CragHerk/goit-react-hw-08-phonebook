@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,10 +14,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { loginUser } from 'state/reducerAuth';
 
-function SignIn() {
+const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -28,8 +29,7 @@ function SignIn() {
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
       if (response.user && response.token) {
-        setEmail(response.user.email); // Aktualizujemy adres email w komponencie SignIn
-        navigate('/contacts');
+        navigate('/contacts'); // Przejdź do '/contacts' bez pobierania dodatkowych danych użytkownika
       }
     } catch (error) {
       console.log(error);
@@ -98,14 +98,14 @@ function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/password" variant="body2">
+                <RouterLink to="/password" variant="body2">
                   Forgot password?
-                </Link>
+                </RouterLink>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <RouterLink to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </RouterLink>
               </Grid>
             </Grid>
           </Box>
@@ -113,6 +113,6 @@ function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
 export default SignIn;

@@ -5,10 +5,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
-  async () => {
+  async (_, { getState }) => {
     try {
+      const { token } = getState().auth;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
       const response = await axios.get(
-        'https://64a7da22dca581464b84e431.mockapi.io/contacts'
+        'https://connections-api.herokuapp.com/contacts',
+        { headers }
       );
       return response.data;
     } catch (error) {
@@ -21,10 +26,15 @@ export const fetchContacts = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async contactId => {
+  async (contactId, { getState }) => {
     try {
+      const { token } = getState().auth;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
       await axios.delete(
-        `https://64a7da22dca581464b84e431.mockapi.io/contacts/${contactId}`
+        `https://connections-api.herokuapp.com/contacts/${contactId}`,
+        { headers }
       );
       return contactId;
     } catch (error) {
@@ -37,11 +47,16 @@ export const deleteContact = createAsyncThunk(
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async contact => {
+  async (contact, { getState }) => {
     try {
+      const { token } = getState().auth;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
       const response = await axios.post(
-        'https://64a7da22dca581464b84e431.mockapi.io/contacts',
-        contact
+        'https://connections-api.herokuapp.com/contacts',
+        contact,
+        { headers }
       );
       return response.data;
     } catch (error) {
@@ -68,10 +83,14 @@ const contactSlice = createSlice({
     filter: '',
     status: 'idle',
     error: null,
+    contactId: null,
   },
   reducers: {
     setFilterValue: (state, action) => {
       state.filter = action.payload;
+    },
+    setContactId: (state, action) => {
+      state.contactId = action.payload; // Zaktualizuj contactId w stanie
     },
   },
   extraReducers: builder => {
@@ -85,6 +104,7 @@ const contactSlice = createSlice({
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.contacts = action.payload;
+        state.contactId = action.payload.contactId;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.status = 'succeeded';
