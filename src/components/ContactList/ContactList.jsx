@@ -50,7 +50,7 @@ const ContactList = () => {
     : contacts.contacts;
 
   return (
-    <List className={styles.list}>
+    <List>
       {filteredContacts.map(contact => (
         <ListItem key={contact.id}>
           <ListItemText primary={`${contact.name} - ${contact.number}`} />

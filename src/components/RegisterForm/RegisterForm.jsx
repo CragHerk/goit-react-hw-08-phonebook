@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
+import { toast, ToastContainer } from 'react-toastify';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -25,21 +25,26 @@ function SignUp() {
     email: '',
     password: '',
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     const { firstName, lastName, email, password } = formData;
 
-    // Wywołanie thunk-funkcji registerUser
-    dispatch(registerUser({ firstName, lastName, email, password }));
+    try {
+      dispatch(registerUser({ firstName, lastName, email, password }));
+      setShowSuccess(true);
 
-    // Resetowanie danych formularza
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    });
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
+    } catch (error) {
+      toast.error('Wystąpił błąd podczas rejestracji');
+      console.error(error);
+    }
   };
 
   const handleChange = event => {
@@ -54,6 +59,17 @@ function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

@@ -15,7 +15,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { loginUser } from 'state/reducerAuth';
 
 const SignIn = () => {
@@ -29,15 +30,27 @@ const SignIn = () => {
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
       if (response.user && response.token) {
+        toast.success('Zalogowano pomyślnie');
         navigate('/contacts'); // Przejdź do '/contacts' bez pobierania dodatkowych danych użytkownika
       }
     } catch (error) {
-      console.log(error);
+      toast.error('Błędne hasło lub login');
     }
   };
 
   return (
     <ThemeProvider theme={createTheme()}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000} // Czas trwania powiadomienia w milisekundach
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

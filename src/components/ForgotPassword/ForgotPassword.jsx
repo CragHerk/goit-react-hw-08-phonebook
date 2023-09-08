@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function ForgotPassword() {
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = useState(false);
 
   const validate = values => {
     const errors = {};
@@ -29,8 +28,16 @@ function ForgotPassword() {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h3" gutterBottom marked="center" align="center">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+      }}
+    >
+      <Typography variant="h3" gutterBottom marked="center">
         Forgot your password?
       </Typography>
       <Typography variant="body2" align="center">
@@ -43,7 +50,11 @@ function ForgotPassword() {
             component="form"
             onSubmit={handleSubmit2}
             noValidate
-            sx={{ mt: 6 }}
+            sx={{
+              mt: 6,
+              maxWidth: '400px', // Ograniczenie szerokości formularza
+              width: '100%',
+            }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -82,7 +93,7 @@ function ForgotPassword() {
           <Button startIcon={<ArrowBackIcon />}>Go back</Button>
         </Link>
       </Box>
-    </React.Fragment>
+    </Box>
   );
 }
 

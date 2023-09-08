@@ -8,6 +8,7 @@ import authSlice from './reducerAuth';
 const persistConfig = {
   key: 'root',
   storage,
+  serializeAction: false,
 };
 
 const rootReducer = combineReducers({
