@@ -25,7 +25,7 @@ function SignUp() {
     email: '',
     password: '',
   });
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [setShowSuccess] = useState(false);
 
   const handleSubmit = async event => {
     event.preventDefault();

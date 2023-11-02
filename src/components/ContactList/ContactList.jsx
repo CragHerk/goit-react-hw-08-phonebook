@@ -10,13 +10,10 @@ import {
   ListItemText,
   Button,
 } from '@mui/material';
-import styles from './ContactList.module.css';
 
-// Import selektora do pobrania wartości filtra
 import { selectContacts, selectFilter } from '../../state/selectors';
 
 const ContactList = () => {
-  // Wykorzystaj selektory do pobrania danych z Redux Store
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
